@@ -234,15 +234,21 @@ def run_bertopic(docs, settings):
 def generate_graphs(topic_model):
     if topic_model:
         try:
+            # Set up graphs
             topic_map = topic_model.visualize_topics()
             topic_distribution = topic_model.visualize_distribution(st.session_state['probs'])
             barchart = topic_model.visualize_barchart(top_n_topics=10)
-            # wordcloud = topic_model.visualize_wordcloud()
 
+            # Set graph title font color to white
+            style_update = {'title_font_color': 'white'}
+            topic_map.update_layout(**style_update)
+            topic_distribution.update_layout(**style_update)
+            barchart.update_layout(**style_update)
+
+            # Plot graphs
             st.plotly_chart(topic_map, use_container_width=True)
             st.plotly_chart(topic_distribution, use_container_width=True)
             st.plotly_chart(barchart, use_container_width=True)
-            # st.plotly_chart(wordcloud, use_container_width=True)
 
         except Exception as e:
             st.error(f"Error generating graphs: {e}")
