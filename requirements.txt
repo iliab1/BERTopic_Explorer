@@ -3,3 +3,5 @@ pandas~=2.2.0
 bertopic~=0.16.0
 scikit-learn~=1.4.0
 hdbscan~=0.8.33
+openai~=1.12.0
+tiktoken~=0.6.0
