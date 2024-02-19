@@ -176,13 +176,26 @@ def model_settings():
         # Add some option widgets to the sidebar:
         # Add secrets
         api_key = st.sidebar.text_input("API Key", type="password")
+
+        # Add chat option
+        chat = st.sidebar.checkbox("Enable Chat (Set this to True if a GPT-3.5 model is used)", value=True)
+
+        # Add custom prompt option
+        custom_prompt = st.sidebar.checkbox("Custom Prompt", value=False)
+        prompt = None
+        if custom_prompt:
+            prompt = st.sidebar.text_area(
+                "Modify Prompt", "I have topic that contains the following documents:\n[DOCUMENTS]\nThe topic is described by the following keywords:\n[KEYWORDS]\n\nBased on the information above, extract a short topic label in the following format:\ntopic: <topic label>")
+            st.sidebar.code(prompt)
+
+        # Configure OpenAI client
         tokenizer = tiktoken.get_encoding("cl100k_base")
         client = openai.OpenAI(api_key=api_key)
         representation_model = OpenAI(
             client,
             model=text_generation_model,
             delay_in_seconds=2,
-            chat=True,
+            chat=chat,
             nr_docs=4,
             doc_length=100,
             tokenizer=tokenizer
