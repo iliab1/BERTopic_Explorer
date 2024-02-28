@@ -281,7 +281,11 @@ settings = model_settings()
 if st.button("Run BERTopic"):
     with st.spinner('Running BERTopic...'):
         model = run_bertopic(docs, settings)
-    st.success('Topic modeling completed!')
+        # Error handling
+        if model is None:
+            st.error("Error running BERTopic. Please check the data and model settings.")
+        else:
+            st.success('Topic modeling completed!')
 
 if 'model' in st.session_state:
     topic_info = st.session_state['model'].get_topic_info()
